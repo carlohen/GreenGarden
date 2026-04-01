@@ -1,101 +1,147 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { Menu, ChevronLeft } from "lucide-react";
-import { getPlantsByBlock, getBlockById } from "@/lib/data";
+import { ChevronLeft, MapPin, Menu, Search } from "lucide-react";
+import { getBlockById, getPlantsByBlock } from "@/lib/data";
 import { useState } from "react";
 import SideMenu from "@/components/SideMenu";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-export default function BlocoPage() {
+export default function BlockPage() {
   const { id } = useParams();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
   const blockId = Array.isArray(id) ? id[0] : id;
-  const plants = getPlantsByBlock(blockId || "");
-  const blockData = getBlockById(blockId || "");
-  
-  const blockTitle = blockData?.name || "Bloco";
+  const block = getBlockById(blockId || "");
+  const blockPlants = getPlantsByBlock(blockId || "");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  if (!block) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center p-6">
+        <h1 className="text-2xl font-heading text-brand">Setor não encontrado</h1>
+        <Link href="/" className="mt-4 text-brand-light flex items-center gap-2">
+          <ChevronLeft className="w-5 h-5" /> Voltar ao Início
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <main className="flex flex-col min-h-screen bg-background">
+    <main className="flex flex-col min-h-screen bg-background overflow-hidden relative">
       <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-
-      {/* Header */}
-      <header className="bg-brand-green p-6 pt-12 rounded-b-[40px] relative overflow-hidden">
-        <div className="flex justify-between items-center relative z-10">
-          <Link href="/" className="text-white">
-            <ChevronLeft className="w-8 h-8" />
+      
+      {/* Premium Header Overlays */}
+      <header className="absolute top-0 left-0 right-0 z-40 px-6 py-8 flex justify-between items-center pointer-events-none">
+        <div className="flex gap-3 pointer-events-auto">
+          <Link href="/" className="bg-white/90 backdrop-blur-md p-3 rounded-[1.25rem] shadow-xl border border-white/50 text-brand hover:scale-110 active:scale-95 transition-all">
+            <ChevronLeft className="w-6 h-6" />
           </Link>
-          
-          <div className="flex flex-col items-center">
-            <span className="text-brand-light font-heading text-xl uppercase tracking-widest leading-tight">
-              GREENGarden
-            </span>
-            <h1 className="text-white font-heading text-4xl tracking-tight leading-none mt-1">
-              {blockTitle}
-            </h1>
-          </div>
-
-          <button onClick={() => setIsMenuOpen(true)} className="text-white">
-            <Menu className="w-8 h-8" />
-          </button>
         </div>
-
-        {/* Map Image with Zoom Focus */}
-        <div className="mt-8 relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 bg-gray-100">
-          <Image
-            src="/campus-map.png"
-            alt={`Mapa do ${blockTitle}`}
-            fill
-            className="object-cover transition-all duration-700"
-            style={{ 
-              objectPosition: blockData ? `${blockData.focusX}% ${blockData.focusY}%` : "center",
-              transform: blockData ? "scale(2.5)" : "scale(1)"
-            }}
-          />
-          {/* Legend overlay */}
-          <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-brand shadow-sm">
-            Foco: {blockTitle}
+        
+        <div className="flex flex-col items-center pointer-events-auto">
+          <Badge className="bg-brand/90 backdrop-blur-sm text-white border-none mb-2 px-4 py-1 text-[9px] tracking-[0.25em] font-heading uppercase font-black shadow-lg">
+            LOCALIZAÇÃO EM TEMPO REAL
+          </Badge>
+          <div className="bg-white/90 backdrop-blur-md px-8 py-2 rounded-2xl shadow-xl border border-white/50 ring-1 ring-black/5">
+            <h1 className="font-heading text-2xl text-brand tracking-tighter leading-none">{block.name}</h1>
           </div>
         </div>
+
+        <button 
+          onClick={() => setIsMenuOpen(true)}
+          className="bg-white/90 backdrop-blur-md p-3 rounded-[1.25rem] shadow-xl border border-white/50 text-brand hover:scale-110 active:scale-95 transition-all pointer-events-auto"
+        >
+          <Menu className="w-7 h-7" />
+        </button>
       </header>
 
-      {/* Plants Section */}
-      <section className="p-6">
-        <h2 className="font-heading text-brand text-xl tracking-wide mb-6 uppercase border-b-2 border-brand-light/30 pb-2 inline-block">
-          Plantas presentes nesse bloco
-        </h2>
-
-        <div className="grid grid-cols-2 gap-6 pb-12">
-          {plants.map((plant) => (
-            <Link 
-              href={`/planta/${plant.id}`} 
-              key={plant.id}
-              className="flex flex-col"
-            >
-              <div className="aspect-square rounded-2xl overflow-hidden relative shadow-md mb-3 group">
-                <Image
-                  src={plant.thumbnailUrl}
-                  alt={plant.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <span className="text-sm font-semibold text-gray-800 text-center">
-                {plant.name}
-              </span>
-            </Link>
-          ))}
+      {/* High-Impact Map Component */}
+      <div className="relative flex-1 bg-[#f8f9fa]">
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1500"
+            alt="Campus Map"
+            fill
+            className="object-cover transition-transform duration-[1500ms] ease-out scale-[3]"
+            style={{ 
+              objectPosition: `${block.focusX}% ${block.focusY}%`
+            }}
+          />
           
-          {plants.length === 0 && (
-            <div className="col-span-2 py-10 text-center text-gray-500 italic">
-              Nenhuma planta catalogada para este bloco ainda.
+          {/* Animated Map HUD */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/10 pointer-events-none" />
+          
+          {/* Pulsing Pin - Centered because of object-position trick */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+            <div className="relative">
+              <div className="absolute inset-0 bg-brand rounded-full animate-ping opacity-40 scale-150" />
+              <div className="relative bg-brand p-5 rounded-full shadow-[0_0_40px_rgba(45,90,39,0.5)] border-[5px] border-white ring-2 ring-brand/20">
+                <MapPin className="w-10 h-10 text-white fill-white/10" />
+              </div>
             </div>
-          )}
+          </div>
+        </div>
+      </div>
+
+      {/* Scrolling Flora Browser */}
+      <section className="absolute bottom-10 left-0 right-0 z-40">
+        <div className="px-6 mb-5 flex justify-between items-end">
+          <div className="bg-white/90 backdrop-blur-md px-5 py-3 rounded-[1.5rem] shadow-2xl border border-white/50 ring-1 ring-black/5">
+            <h3 className="font-heading text-brand text-base tracking-tight leading-none mb-1.5 flex items-center gap-2">
+              <Leaf className="w-4 h-4 text-brand-light" /> ESPÉCIES LOCAIS
+            </h3>
+            <span className="text-[10px] text-gray-400 font-black uppercase tracking-[0.15em] leading-none">
+              {blockPlants.length} plantas identificadas
+            </span>
+          </div>
+          <Link href="/catalago">
+            <Button className="bg-brand rounded-2xl shadow-xl h-12 px-6 hover:translate-y-[-2px] transition-all text-xs tracking-widest font-black uppercase ring-offset-2 ring-brand/20 hover:ring-2">
+              <Search className="w-4 h-4 mr-2" /> Explorar Tudo
+            </Button>
+          </Link>
+        </div>
+        
+        <div className="overflow-x-auto pb-6 scrollbar-hide">
+          <div className="flex gap-5 px-6 min-w-max">
+            {blockPlants.map((plant) => (
+              <Link 
+                key={plant.id} 
+                href={`/planta/${plant.id}`}
+                className="group w-44"
+              >
+                <div className="bg-white/90 backdrop-blur-md p-4 rounded-[2rem] shadow-2xl border border-white/50 hover:bg-white transition-all hover:-translate-y-3 group-active:scale-95 duration-500 ring-1 ring-black/5">
+                  <div className="relative aspect-square w-full rounded-[1.5rem] overflow-hidden mb-4 shadow-sm">
+                    <Image
+                      src={plant.thumbnailUrl}
+                      alt={plant.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-brand/10 group-hover:bg-transparent transition-colors" />
+                  </div>
+                  <h4 className="font-heading text-brand text-base tracking-tight truncate leading-tight group-hover:text-brand-light transition-colors mb-0.5">{plant.name}</h4>
+                  <p className="text-[10px] text-gray-400 font-heading italic truncate opacity-80 whitespace-nowrap overflow-hidden">{plant.scientificName}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* Custom Styles for scrollbar-hide */}
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </main>
   );
 }
+
+import { Leaf } from "lucide-react";

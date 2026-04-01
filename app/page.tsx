@@ -6,6 +6,7 @@ import { Search, Menu } from "lucide-react";
 import { plants } from "@/lib/data";
 import { useState } from "react";
 import SideMenu from "@/components/SideMenu";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,12 +30,14 @@ export default function Home() {
 
         {/* Header Icons / Menu */}
         <div className="absolute top-4 right-4 z-10">
-          <button 
+          <Button 
+            variant="ghost"
+            size="icon"
             onClick={() => setIsMenuOpen(true)}
-            className="p-1 hover:bg-white/10 rounded-full transition-colors"
+            className="rounded-full text-white hover:bg-white/10"
           >
-            <Menu className="w-8 h-8 text-white" />
-          </button>
+            <Menu className="w-8 h-8" />
+          </Button>
         </div>
 
         {/* Logo */}

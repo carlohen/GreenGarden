@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -10,63 +10,45 @@ interface SideMenuProps {
 }
 
 const menuItems = [
-  { name: "BIBLIOTECA", href: "#" },
+  { name: "BIBLIOTECA", href: "/bloco/biblioteca" },
   { name: "BLOCO A", href: "/bloco/bloco-a" },
   { name: "BLOCO B", href: "/bloco/bloco-b" },
   { name: "BLOCO C", href: "/bloco/bloco-c" },
   { name: "BLOCO D", href: "/bloco/bloco-d" },
   { name: "BLOCO T", href: "/bloco/bloco-t" },
   { name: "BLOCO M", href: "/bloco/bloco-m" },
-  { name: "REITORIA", href: "#" },
+  { name: "REITORIA", href: "/bloco/reitoria" },
 ];
 
 export default function SideMenu({ isOpen, onClose }: SideMenuProps) {
-  // Prevent scrolling when menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
-      />
-      
-      {/* Menu Panel */}
-      <div className="relative w-72 h-full bg-white shadow-2xl flex flex-col items-center pt-12 animate-in slide-in-from-right duration-300">
-        {/* Close Button */}
-        <button 
-          onClick={onClose}
-          className="absolute top-6 right-6 p-1 rounded-full border-2 border-brand text-brand hover:bg-brand/10 transition-colors"
-        >
-          <X className="w-6 h-6" />
-        </button>
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent side="right" className="w-[300px] sm:w-[400px] border-l-brand/20 bg-background/95 backdrop-blur-md flex flex-col items-center pt-20">
+        <SheetHeader className="mb-10">
+          <SheetTitle className="text-brand font-heading text-2xl tracking-[0.2em] text-center">
+            MENU
+          </SheetTitle>
+        </SheetHeader>
 
-        {/* Links */}
-        <nav className="flex flex-col gap-6 mt-12 items-center w-full">
+        <nav className="flex flex-col gap-8 items-center w-full">
           {menuItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-brand font-heading text-lg tracking-widest hover:scale-105 transition-transform"
               onClick={onClose}
+              className="text-brand font-heading text-xl tracking-[0.15em] hover:text-brand-light transition-all hover:scale-110 active:scale-95"
             >
               {item.name}
             </Link>
           ))}
         </nav>
-      </div>
-    </div>
+
+        {/* Brand footer inside sheet */}
+        <div className="absolute bottom-10 flex flex-col items-center opacity-30">
+          <span className="text-brand text-xs font-heading font-black tracking-tighter">GREEN</span>
+          <span className="text-brand-light text-[10px] font-heading italic -mt-1 font-bold">Garden</span>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 }

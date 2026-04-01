@@ -40,8 +40,8 @@ export const plants: Plant[] = [
     family: "Arecaceae",
     origin: "Sudeste Asiático",
     biome: "Litorâneo",
-    thumbnailUrl: "https://images.unsplash.com/photo-1541336032412-2048a678540d?auto=format&fit=crop&q=80&w=200",
-    imageUrl: "https://images.unsplash.com/photo-1541336032412-2048a678540d?auto=format&fit=crop&q=80&w=800",
+    thumbnailUrl: "https://www12.senado.leg.br/audiolivros/RS/flora-do-senado/especies/imagem/cocos-nucifera-01.jpg",
+    imageUrl: "https://www12.senado.leg.br/audiolivros/RS/flora-do-senado/especies/imagem/cocos-nucifera-01.jpg",
     characteristics: "Palmeira de tronco único, que pode atingir até 30 metros de altura. Possui folhas pinadas e frutos de casca fibrosa contendo água e polpa comestível.",
     ecologicalImportance: ["Fonte de alimento para diversas espécies.", "Ajuda a estabilizar o solo em áreas costeiras."],
     curbsideNotes: ["O coco leva de 6 a 12 meses para amadurecer.", "A água de coco é rica em eletrólitos."],
@@ -54,8 +54,8 @@ export const plants: Plant[] = [
     family: "Casuarinaceae",
     origin: "Austrália e Sudeste Asiático",
     biome: "Litorâneo",
-    thumbnailUrl: "https://images.unsplash.com/photo-1621343750172-132cfbcba287?auto=format&fit=crop&q=80&w=200",
-    imageUrl: "https://images.unsplash.com/photo-1621343750172-132cfbcba287?auto=format&fit=crop&q=80&w=800",
+    thumbnailUrl: "https://www.fresnogardening.org/PlantMaster/Photos/1351a.jpg",
+    imageUrl: "https://www.fresnogardening.org/PlantMaster/Photos/1351a.jpg",
     characteristics: "Árvore de grande porte que assemelha-se a um pinheiro, mas é uma angiosperma. Suas folhas são reduzidas a escamas minúsculas.",
     ecologicalImportance: ["Fixadora de nitrogênio no solo.", "Excelente quebra-vento em áreas litorâneas."],
     curbsideNotes: ["Podem sobreviver em solos muito salinos.", "A madeira é extremamente dura e pesada."],
@@ -68,8 +68,8 @@ export const plants: Plant[] = [
     family: "Combretaceae",
     origin: "Ásia Tropical",
     biome: "Litorâneo",
-    thumbnailUrl: "https://images.unsplash.com/photo-1598335624134-4067969850da?auto=format&fit=crop&q=80&w=200",
-    imageUrl: "https://images.unsplash.com/photo-1598335624134-4067969850da?auto=format&fit=crop&q=80&w=800",
+    thumbnailUrl: "https://images.squarespace-cdn.com/content/v1/5bacb83e809d8e12a0e172eb/1544096435735-CP54WD3XN6W8DV9PNXZI/T.cattapa.jpg",
+    imageUrl: "https://images.squarespace-cdn.com/content/v1/5bacb83e809d8e12a0e172eb/1544096435735-CP54WD3XN6W8DV9PNXZI/T.cattapa.jpg",
     characteristics: "Árvore de copa larga e horizontalizada, com folhas grandes que ficam avermelhadas antes de cair.",
     ecologicalImportance: ["Oferece ampla sombra.", "Os frutos são dispersos pela água."],
     curbsideNotes: ["As amêndoas do fruto são comestíveis.", "É muito utilizada em arborização urbana costeira."],
@@ -82,8 +82,8 @@ export const plants: Plant[] = [
     family: "Anacardiaceae",
     origin: "Nativo do Brasil",
     biome: "Caatinga e Cerrado",
-    thumbnailUrl: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&q=80&w=200",
-    imageUrl: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&q=80&w=800",
+    thumbnailUrl: "https://ars.els-cdn.com/content/image/3-s2.0-B9780128031384000125-f12-01-9780128031384.jpg",
+    imageUrl: "https://ars.els-cdn.com/content/image/3-s2.0-B9780128031384000125-f12-01-9780128031384.jpg",
     characteristics: "Árvore de tronco tortuoso com madeira leve. O verdadeiro fruto é a castanha, enquanto o caju é um pseudofruto.",
     ecologicalImportance: ["Importante para a fauna local como fonte de alimento.", "Espécie pioneira em áreas de dunas."],
     curbsideNotes: ["O Brasil é um dos maiores produtores de castanha de caju.", "A produção de suco de caju é muito forte no Nordeste."],
@@ -96,8 +96,8 @@ export const plants: Plant[] = [
     family: "Bromeliaceae",
     origin: "Brasil",
     biome: "Mata Atlântica",
-    thumbnailUrl: "https://images.unsplash.com/photo-1652199042294-0ea80c102a90?auto=format&fit=crop&q=80&w=200",
-    imageUrl: "https://images.unsplash.com/photo-1652199042294-0ea80c102a90?auto=format&fit=crop&q=80&w=800",
+    thumbnailUrl: "https://levypreserve.org/wp-content/uploads/2024/05/Aechmea-blanchetiana-whole-plant-scaled.jpg",
+    imageUrl: "https://levypreserve.org/wp-content/uploads/2024/05/Aechmea-blanchetiana-whole-plant-scaled.jpg",
     characteristics: "Planta herbácea com folhas coriáceas dispostas em roseta, de cor amarelada a alaranjada sob sol pleno.",
     ecologicalImportance: ["Acumula água no centro, servindo de habitat para pequenos animais.", "Atrai beija-flores para polinização."],
     curbsideNotes: ["Muito resistente ao sol direto.", "A inflorescência pode durar meses."],
@@ -559,8 +559,8 @@ export function getPlantById(id: string): Plant | undefined {
 
 export function searchPlants(query: string): Plant[] {
   const lowerQuery = query.toLowerCase();
-  return plants.filter(plant => 
-    plant.name.toLowerCase().includes(lowerQuery) || 
+  return plants.filter(plant =>
+    plant.name.toLowerCase().includes(lowerQuery) ||
     plant.family.toLowerCase().includes(lowerQuery) ||
     plant.scientificName.toLowerCase().includes(lowerQuery) ||
     plant.characteristics.toLowerCase().includes(lowerQuery)

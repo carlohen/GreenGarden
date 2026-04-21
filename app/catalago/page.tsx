@@ -42,7 +42,7 @@ export default function CatalogSearch() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Flor, árvore ou localização..."
-            className="w-full bg-white rounded-full py-6 pl-12 pr-4 shadow-sm border-brand/10 focus-visible:ring-brand focus-visible:border-brand transition-all text-base"
+            className="w-full bg-card rounded-full py-6 pl-12 pr-4 shadow-sm border-border/50 focus-visible:ring-brand focus-visible:border-brand transition-all text-base"
           />
         </div>
       </div>
@@ -91,8 +91,8 @@ export default function CatalogSearch() {
         </div>
         
         {results.length === 0 && (
-          <div className="text-center py-20 bg-gray-50/50 rounded-3xl border-2 border-dashed border-gray-100 mt-4">
-            <Search className="w-12 h-12 text-gray-200 mx-auto mb-3" />
+          <div className="text-center py-20 bg-muted/50 rounded-3xl border-2 border-dashed border-border mt-4">
+            <Search className="w-12 h-12 text-muted-foreground/20 mx-auto mb-3" />
             <p className="text-gray-400 text-sm font-sans italic">
               Nenhuma planta encontrada para sua busca.
             </p>

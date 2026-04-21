@@ -20,14 +20,25 @@ export const metadata: Metadata = {
   description: "Catálogo da flora presente na Universidade de Fortaleza",
 };
 
+import { ThemeProvider } from "@/components/theme-provider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={cn("h-full", "antialiased", inter.variable, oswald.variable, "font-sans", geist.variable)}>
-      <body className="min-h-full flex flex-col font-inter">{children}</body>
+    <html lang="pt-BR" className={cn("h-full", "antialiased", inter.variable, oswald.variable, "font-sans", geist.variable)} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col font-inter">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

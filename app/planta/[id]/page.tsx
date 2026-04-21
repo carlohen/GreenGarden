@@ -3,12 +3,18 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, Info, Leaf, MapPin, Menu, Share2 } from "lucide-react";
+import { ChevronLeft, Info, Leaf, MapPin, Menu, Share2, Map as MapIcon } from "lucide-react";
 import { getPlantById } from "@/lib/data";
 import { useState } from "react";
 import SideMenu from "@/components/SideMenu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("@/components/Map"), { 
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-muted animate-pulse rounded-3xl" />
+});
 
 export default function PlantPage() {
   const { id } = useParams();
@@ -79,24 +85,24 @@ export default function PlantPage() {
       </div>
 
       {/* Main Content Card */}
-      <div className="flex-1 bg-white -mt-8 rounded-t-[2.5rem] relative z-30 px-6 pt-10 pb-12 shadow-2xl overflow-visible">
+      <div className="flex-1 bg-background -mt-8 rounded-t-[2.5rem] relative z-30 px-6 pt-10 pb-12 shadow-2xl overflow-visible">
         {/* Action Pills */}
         <div className="grid grid-cols-2 gap-4 mb-10">
-          <div className="flex items-center gap-3 p-4 bg-gray-50/80 rounded-2xl border border-gray-100/50">
+          <div className="flex items-center gap-3 p-4 bg-card/80 rounded-2xl border border-border/50">
             <div className="bg-brand/10 p-2 rounded-xl">
               <MapPin className="w-5 h-5 text-brand" />
             </div>
             <div>
-              <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest block mb-0.5">Origem</span>
+              <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest block mb-0.5">Origem</span>
               <p className="text-sm font-sans text-brand font-semibold leading-tight">{plant.origin}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-4 bg-gray-50/80 rounded-2xl border border-gray-100/50">
+          <div className="flex items-center gap-3 p-4 bg-card/80 rounded-2xl border border-border/50">
             <div className="bg-brand/10 p-2 rounded-xl">
               <Leaf className="w-5 h-5 text-brand" />
             </div>
             <div>
-              <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest block mb-0.5">Bioma</span>
+              <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest block mb-0.5">Bioma</span>
               <p className="text-sm font-sans text-brand font-semibold leading-tight">{plant.biome}</p>
             </div>
           </div>
@@ -110,7 +116,7 @@ export default function PlantPage() {
             </div>
             <h3 className="font-heading text-2xl text-brand tracking-tight">Características</h3>
           </div>
-          <p className="text-gray-600 font-sans leading-relaxed text-base">
+          <p className="text-foreground/80 font-sans leading-relaxed text-base">
             {plant.characteristics}
           </p>
         </section>
@@ -123,7 +129,7 @@ export default function PlantPage() {
               {plant.ecologicalImportance.map((item, idx) => (
                 <div key={idx} className="flex gap-4 items-start group">
                   <div className="w-2 h-2 rounded-full bg-brand-light mt-2 shrink-0 group-hover:scale-150 transition-transform" />
-                  <p className="text-sm text-gray-700 font-sans leading-snug">{item}</p>
+                  <p className="text-sm text-foreground/80 font-sans leading-snug">{item}</p>
                 </div>
               ))}
             </div>
@@ -146,8 +152,8 @@ export default function PlantPage() {
         {/* Dynamic Location Map Pins */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-gray-400 uppercase font-black tracking-[0.2em]">Onde encontrar</span>
-            <div className="h-px bg-gray-100 flex-1 ml-4" />
+            <span className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em]">Onde encontrar</span>
+            <div className="h-px bg-border flex-1 ml-4" />
           </div>
           <div className="flex flex-wrap gap-2">
             {plant.blocks.map(blockId => (
@@ -159,6 +165,26 @@ export default function PlantPage() {
             ))}
           </div>
         </div>
+
+        {/* Interactive Location Map */}
+        {(plant.lat && plant.lng) && (
+          <section className="mt-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-brand/10 p-2 rounded-xl">
+                <MapIcon className="w-6 h-6 text-brand" />
+              </div>
+              <h3 className="font-heading text-2xl text-brand tracking-tight">Localização Exata</h3>
+            </div>
+            
+            <div className="h-64 w-full rounded-[2.5rem] overflow-hidden shadow-xl border border-border/50 relative">
+              <Map lat={plant.lat} lng={plant.lng} zoom={18} />
+              <div className="absolute inset-0 ring-1 ring-inset ring-black/5 pointer-events-none rounded-[2.5rem]" />
+            </div>
+            <p className="mt-4 text-[10px] text-muted-foreground font-sans uppercase tracking-[0.1em] text-center">
+              Coordenadas: {plant.lat.toFixed(6)}, {plant.lng.toFixed(6)}
+            </p>
+          </section>
+        )}
       </div>
     </main>
   );

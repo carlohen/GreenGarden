@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -10,14 +11,7 @@ interface SideMenuProps {
 }
 
 const menuItems = [
-  { name: "BIBLIOTECA", href: "/bloco/biblioteca" },
-  { name: "BLOCO A", href: "/bloco/bloco-a" },
-  { name: "BLOCO B", href: "/bloco/bloco-b" },
-  { name: "BLOCO C", href: "/bloco/bloco-c" },
-  { name: "BLOCO D", href: "/bloco/bloco-d" },
   { name: "BLOCO T", href: "/bloco/bloco-t" },
-  { name: "BLOCO M", href: "/bloco/bloco-m" },
-  { name: "REITORIA", href: "/bloco/reitoria" },
 ];
 
 export default function SideMenu({ isOpen, onClose }: SideMenuProps) {
@@ -43,8 +37,14 @@ export default function SideMenu({ isOpen, onClose }: SideMenuProps) {
           ))}
         </nav>
 
+        <div className="flex-1" />
+
+        <div className="mb-8">
+          <ModeToggle />
+        </div>
+
         {/* Brand footer inside sheet */}
-        <div className="absolute bottom-10 flex flex-col items-center opacity-30">
+        <div className="bottom-10 flex flex-col items-center opacity-30">
           <span className="text-brand text-xs font-heading font-black tracking-tighter">GREEN</span>
           <span className="text-brand-light text-[10px] font-heading italic -mt-1 font-bold">Garden</span>
         </div>

@@ -7,6 +7,7 @@ Este é o catálogo digital da flora presente na Universidade de Fortaleza (UNIF
 Para rodar o projeto localmente:
 
 ```bash
+cd frontend/my-app ->
 npm run dev
 # ou
 yarn dev

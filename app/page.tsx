@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Menu } from "lucide-react";
-import { plants } from "@/lib/data";
+import { plants, TRANSPARENT_PIXEL } from "@/lib/data";
 import { useState } from "react";
 import SideMenu from "@/components/SideMenu";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ export default function Home() {
         {/* Background Image Map */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1000"
+            src={TRANSPARENT_PIXEL}
             alt="Campus Greenery"
             fill
             className="object-cover brightness-50"
@@ -34,7 +34,7 @@ export default function Home() {
             variant="ghost"
             size="icon"
             onClick={() => setIsMenuOpen(true)}
-            className="rounded-full text-white hover:bg-white/10"
+            className="rounded-full text-foreground hover:bg-foreground/10"
           >
             <Menu className="w-8 h-8" />
           </Button>
@@ -42,7 +42,7 @@ export default function Home() {
 
         {/* Logo */}
         <div className="z-10 flex flex-col items-center mt-[-20px]">
-          <h1 className="text-white font-heading text-6xl tracking-tighter leading-none">
+          <h1 className="text-foreground font-heading text-6xl tracking-tighter leading-none">
             GREEN
           </h1>
           <h2 className="text-brand-light font-heading text-5xl italic tracking-tight leading-none -mt-2">
@@ -53,9 +53,9 @@ export default function Home() {
         {/* Search Bar - Overlapping bottom of hero */}
         <div className="absolute -bottom-6 w-full px-6 z-20">
           <Link href="/catalago" className="block w-full">
-            <div className="bg-white rounded-full flex items-center px-4 py-3 shadow-lg">
+            <div className="bg-card rounded-full flex items-center px-4 py-3 shadow-lg border border-border/50">
               <Search className="text-brand w-6 h-6 mr-3" />
-              <div className="text-gray-400 flex-1 outline-none font-sans text-sm">
+              <div className="text-muted-foreground flex-1 outline-none font-sans text-sm">
                 Pesquise por flor, planta ou localização
               </div>
             </div>
@@ -79,7 +79,7 @@ export default function Home() {
                 className="object-cover"
               />
             </div>
-            <span className="text-xs text-center text-gray-800 font-medium leading-tight max-w-[70px]">
+            <span className="text-xs text-center text-foreground font-medium leading-tight max-w-[70px]">
               {plant.name}
             </span>
           </Link>
@@ -97,7 +97,7 @@ export default function Home() {
           O que é o Green Garden?
         </h3>
         
-        <div className="text-sm text-gray-700 leading-relaxed font-sans space-y-4">
+        <div className="text-sm text-foreground/80 leading-relaxed font-sans space-y-4">
           <p>
             <strong>Green Garden</strong> é um projeto dedicado à valorização e{' '}
             <strong>catalogação da flora presente na Universidade de Fortaleza</strong>. Desenvolvida

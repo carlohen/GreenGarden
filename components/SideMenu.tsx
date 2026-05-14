@@ -11,6 +11,8 @@ interface SideMenuProps {
 }
 
 const menuItems = [
+  { name: "INÍCIO", href: "/" },
+  { name: "CATÁLOGO", href: "/catalago" },
   { name: "BLOCO T", href: "/bloco/bloco-t" },
 ];
 

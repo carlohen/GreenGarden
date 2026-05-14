@@ -1,8 +1,11 @@
 "use client";
 
 import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 interface MapMarker {
   lat: number;
@@ -29,9 +32,9 @@ function ChangeView({ center, zoom }: { center: [number, number]; zoom: number }
 const primaryIcon = L.divIcon({
   className: "custom-marker-primary",
   html: `
-    <div class="relative">
-      <div class="absolute inset-0 bg-brand rounded-full animate-ping opacity-40 scale-150"></div>
-      <div class="relative bg-brand p-3 rounded-full shadow-[0_0_20px_rgba(45,90,39,0.5)] border-2 border-white">
+    <div class="flex items-center justify-center w-full h-full relative">
+      <div class="absolute inset-0 bg-brand rounded-full animate-ping opacity-40"></div>
+      <div class="relative bg-brand p-3 rounded-full shadow-[0_0_20px_rgba(45,90,39,0.5)] border-2 border-white transition-transform">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
@@ -39,24 +42,24 @@ const primaryIcon = L.divIcon({
       </div>
     </div>
   `,
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
+  iconSize: [44, 44],
+  iconAnchor: [22, 22],
 });
 
 // Subtle icon for secondary markers (other plants)
 const secondaryIcon = L.divIcon({
   className: "custom-marker-secondary",
   html: `
-    <div class="relative group">
-      <div class="bg-brand-light p-2 rounded-full shadow-lg border-2 border-white group-hover:scale-110 transition-transform">
-        <svg viewBox="0 0 24 24" width="12" height="12" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <div class="flex items-center justify-center w-full h-full cursor-pointer pointer-events-auto">
+      <div class="bg-brand-light p-2 rounded-full shadow-lg border-2 border-white transition-all duration-300 hover:scale-125 hover:shadow-xl active:scale-90 pointer-events-auto">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none">
           <path d="M12 2L12 22M2 12L22 12"></path>
         </svg>
       </div>
     </div>
   `,
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
 });
 
 export default function Map({ lat, lng, zoom = 17, markers = [] }: MapProps) {
@@ -76,30 +79,42 @@ export default function Map({ lat, lng, zoom = 17, markers = [] }: MapProps) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {/* Primary Marker */}
-        <Marker position={position} icon={primaryIcon} />
+        {/* Primary Marker - Non-interactive to allow clicking things behind it */}
+        <Marker position={position} icon={primaryIcon} interactive={false} />
 
-        {/* Secondary Markers */}
-        {markers.map((marker, idx) => (
-          <Marker 
-            key={`${marker.lat}-${marker.lng}-${idx}`}
-            position={[marker.lat, marker.lng]}
-            icon={secondaryIcon}
-          >
-            {marker.label && (
-              <Popup>
-                <div className="p-1">
-                  <p className="font-heading text-brand text-sm mb-1">{marker.label}</p>
-                  {marker.href && (
-                    <a href={marker.href} className="text-[10px] text-brand-light font-black uppercase tracking-widest hover:underline">
-                      Ver detalhes →
-                    </a>
-                  )}
-                </div>
-              </Popup>
-            )}
-          </Marker>
-        ))}
+        {/* Secondary Markers with Clustering */}
+        <MarkerClusterGroup
+          chunkedLoading
+          maxClusterRadius={20}
+          zoomToBoundsOnClick={true}
+          spiderfyOnMaxZoom={true}
+          showCoverageOnHover={false}
+          disableClusteringAtZoom={18}
+        >
+          {markers.map((marker, idx) => (
+            <Marker 
+              key={`${marker.lat}-${marker.lng}-${idx}`}
+              position={[marker.lat, marker.lng]}
+              icon={secondaryIcon}
+            >
+              {marker.label && (
+                  <Popup closeButton={false} className="custom-popup">
+                  <div className="p-2 min-w-[120px]">
+                    <p className="font-heading text-brand text-sm mb-2 font-bold">{marker.label}</p>
+                    {marker.href && (
+                      <button 
+                        onClick={() => window.location.href = marker.href!}
+                        className="w-full bg-brand text-white text-[10px] py-2 px-3 rounded-lg font-black uppercase tracking-widest hover:bg-brand-light transition-colors shadow-sm"
+                      >
+                        Ver detalhes →
+                      </button>
+                    )}
+                  </div>
+                </Popup>
+              )}
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
       </MapContainer>
       
       <div className="absolute inset-0 pointer-events-none z-[1000] dark:bg-black/10 transition-colors" />

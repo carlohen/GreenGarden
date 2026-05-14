@@ -15,6 +15,13 @@ export interface Plant {
   blocks: string[];
   lat?: number;
   lng?: number;
+  // Care information
+  care?: {
+    water: "baixa" | "moderada" | "alta";
+    sun: "pleno" | "meia-sombra" | "sombra";
+    difficulty: "iniciante" | "intermediário" | "avançado";
+    tips: string[];
+  };
 }
 
 export interface Block {
@@ -46,7 +53,13 @@ export const plants: Plant[] = [
     curbsideNotes: ["O coco leva de 6 a 12 meses para amadurecer.", "A água de coco é rica em eletrólitos."],
     blocks: ["bloco-t"],
     lat: -3.76884,
-    lng: -38.48014
+    lng: -38.48014,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Regue regularmente durante a fase de crescimento.", "Mantenha o solo bem drenado.", "Limpe as folhas para evitar pragas."]
+    }
   },
   {
     id: "casuarina",
@@ -62,7 +75,13 @@ export const plants: Plant[] = [
     curbsideNotes: ["Podem sobreviver em solos muito salinos.", "A madeira é extremamente dura e pesada."],
     blocks: ["bloco-t"],
     lat: -3.7685,
-    lng: -38.4802
+    lng: -38.4802,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Extremamente resistente à seca.", "Tolera solos salinos.", "Não requer podas frequentes."]
+    }
   },
   {
     id: "amendoeira-da-praia",
@@ -78,7 +97,13 @@ export const plants: Plant[] = [
     curbsideNotes: ["As amêndoas do fruto são comestíveis.", "É muito utilizada em arborização urbana costeira."],
     blocks: ["bloco-t"],
     lat: -3.7681,
-    lng: -38.4805
+    lng: -38.4805,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Gosta de solos profundos.", "As folhas caem no inverno, o que é natural.", "Fornece excelente sombra."]
+    }
   },
   {
     id: "cajueiro",
@@ -92,7 +117,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de tronco tortuoso com madeira leve. O verdadeiro fruto é a castanha, enquanto o caju é um pseudofruto.",
     ecologicalImportance: ["Importante para a fauna local como fonte de alimento.", "Espécie pioneira em áreas de dunas."],
     curbsideNotes: ["O Brasil é um dos maiores produtores de castanha de caju.", "A produção de suco de caju é muito forte no Nordeste."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76875,
+    lng: -38.48030,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Evite solos encharcados.", "Pode ser podado para controlar o tamanho.", "Produz melhor com adubação orgânica."]
+    }
   },
   {
     id: "bromelia-porto-seguro",
@@ -106,7 +139,15 @@ export const plants: Plant[] = [
     characteristics: "Planta herbácea com folhas coriáceas dispostas em roseta, de cor amarelada a alaranjada sob sol pleno.",
     ecologicalImportance: ["Acumula água no centro, servindo de habitat para pequenos animais.", "Atrai beija-flores para polinização."],
     curbsideNotes: ["Muito resistente ao sol direto.", "A inflorescência pode durar meses."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76875,
+    lng: -38.48030,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Mantenha água no centro da roseta.", "Folhas ficam mais alaranjadas sob sol forte.", "Ideal para jardins de baixa manutenção."]
+    }
   },
   {
     id: "coromandel",
@@ -120,7 +161,15 @@ export const plants: Plant[] = [
     characteristics: "Planta de crescimento rápido, com flores tubulares em tons de branco ou violeta. Pode ser usada como forração.",
     ecologicalImportance: ["Importante para borboletas.", "Atrai abelhas melíferas."],
     curbsideNotes: ["Considerada invasora em algumas regiões.", "Floresce quase o ano todo."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76875,
+    lng: -38.48030,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Cresce muito rápido.", "Pode ser podada drasticamente.", "Atrai muitas borboletas."]
+    }
   },
   {
     id: "lacre-comum",
@@ -134,7 +183,15 @@ export const plants: Plant[] = [
     characteristics: "Arbusto perene com inflorescências densas de cor laranja a vermelha. Muito apreciada no paisagismo tropical.",
     ecologicalImportance: ["Fonte de néctar para beija-flores.", "Atrai diversos insetos úteis."],
     curbsideNotes: ["Gosta de sol pleno.", "As flores atraem borboletas."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76874,
+    lng: -38.48030,
+    care: {
+      water: "alta",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Mantenha o solo sempre úmido.", "Adora calor e umidade.", "Floresce quase o ano todo."]
+    }
   },
   {
     id: "paineira",
@@ -148,7 +205,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de grande porte com tronco munido de aculeos (espinhos), famoso pela produção de 'paina'.",
     ecologicalImportance: ["O algodão da paina ajuda na dispersão de sementes.", "Flores são visitadas por morcegos e pássaros."],
     curbsideNotes: ["O tronco armazena água.", "Suas flores rosas são muito ornamentais."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["O tronco armazena água, evite excessos.", "Precisa de muito espaço.", "Perde as folhas antes da floração."]
+    }
   },
   {
     id: "ipe-peroba",
@@ -162,7 +227,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de madeira nobre com floração branca intensa que ocorre logo após o Ipê Amarelo.",
     ecologicalImportance: ["Fonte de pólen para abelhas silvestres.", "Ajuda na regeneração de matas."],
     curbsideNotes: ["Altamente valorizada na marcenaria.", "Possui crescimento moderado."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Prefere solos profundos e férteis.", "Mantenha a base limpa de gramíneas invasoras.", "Crescimento é mais lento nos primeiros anos."]
+    }
   },
   {
     id: "pau-brasil",
@@ -176,7 +249,13 @@ export const plants: Plant[] = [
     characteristics: "Árvore histórica que deu nome ao Brasil, conhecida pela resina avermelhada extraída de seu tronco cor de brasa.",
     ecologicalImportance: ["Árvore símbolo nacional.", "Importante para biodiversidade da Mata Atlântica."],
     curbsideNotes: ["Ameaçada de extinção.", "A madeira é usada hoje para arcos de violino de luxo."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    care: {
+      water: "moderada",
+      sun: "meia-sombra",
+      difficulty: "avançado",
+      tips: ["Sensível a mudanças bruscas de ambiente.", "Requer solo rico em matéria orgânica.", "Proteja de ventos fortes quando jovem."]
+    }
   },
   {
     id: "munguba",
@@ -190,7 +269,15 @@ export const plants: Plant[] = [
     characteristics: "Também conhecida como castanha-do-maranhão, tem folhas digitadas e flores grandes de estames brancos.",
     ecologicalImportance: ["As sementes são comestíveis por peixes em áreas alagadas.", "Importante para fauna de beira de rio."],
     curbsideNotes: ["Muito decorativa como 'Money Tree'.", "As sementes torradas lembram o gosto de cacau."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "alta",
+      sun: "meia-sombra",
+      difficulty: "intermediário",
+      tips: ["Mantenha o solo sempre úmido, mas não encharcado.", "Pode ser cultivada em vasos grandes.", "Suas sementes são comestíveis quando torradas."]
+    }
   },
   {
     id: "dracena-vermelha",
@@ -204,7 +291,15 @@ export const plants: Plant[] = [
     characteristics: "Planta arbustiva de folhas coloridas, variando do verde ao vermelho vibrante. Muito usada em jardins tropicais.",
     ecologicalImportance: ["Fornece abrigo para pequenos insetos.", "Planta ornamental resistente."],
     curbsideNotes: ["Considerada sagrada em algumas culturas da Polinésia.", "Muito fácil de propagar por estacas."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["As cores ficam mais vibrantes sob sol pleno.", "Fácil de propagar por estacas.", "Resistente a pragas comuns."]
+    }
   },
   {
     id: "filodendro-ondulado",
@@ -218,7 +313,15 @@ export const plants: Plant[] = [
     characteristics: "Arbusto ou trepadeira com folhas grandes, coriáceas e com margens graciosamente onduladas.",
     ecologicalImportance: ["Ajuda a manter a umidade do microclima.", "Planta de sub-bosque que tolera sombra."],
     curbsideNotes: ["Pode ser cultivado em vasos grandes.", "Resiliente e de baixa manutenção."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "moderada",
+      sun: "meia-sombra",
+      difficulty: "iniciante",
+      tips: ["Tolera bem ambientes internos iluminados.", "Mantenha o solo úmido no verão.", "Limpe as folhas para manter a saúde."]
+    }
   },
   {
     id: "jacaranda-boca-de-sapo",
@@ -232,7 +335,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de floração roxa-azulada. Recebe esse nome pelo formato característico de seus frutos lenhosos.",
     ecologicalImportance: ["Atrai polinizadores específicos na estação seca.", "Faz parte da rica flora do Cerrado."],
     curbsideNotes: ["Os frutos parecem bocas de sapo quando abertos.", "É menos comum que o Jacarandá Mimoso nas cidades."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Muito resistente à seca após estabelecida.", "Prefere solos bem drenados.", "A floração ocorre no período seco."]
+    }
   },
   {
     id: "philodendron-imbe",
@@ -243,10 +354,18 @@ export const plants: Plant[] = [
     biome: "Mata Atlântica",
     thumbnailUrl: TRANSPARENT_PIXEL,
     imageUrl: TRANSPARENT_PIXEL,
-    characteristics: "Planta trepadeira com folhas alongadas que lembram o rosto de um cavalo (ou 'cabala' no popular).",
+    characteristics: "Planta trepadeira with folhas alongadas que lembram o rosto de um cavalo (ou 'cabala' no popular).",
     ecologicalImportance: ["Usa árvores como suporte sem ser parasita (epífita).", "Importante componente de matas úmidas."],
     curbsideNotes: ["Popular em decoração de interiores.", "Suas raízes aéreas buscam umidade."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "moderada",
+      sun: "meia-sombra",
+      difficulty: "iniciante",
+      tips: ["Ideal para treliças ou troncos de árvores.", "Gosta de umidade ambiental alta.", "Evite sol direto nas horas mais quentes."]
+    }
   },
   {
     id: "palmeira-fenix",
@@ -260,7 +379,15 @@ export const plants: Plant[] = [
     characteristics: "Pequena palmeira de crescimento lento, com tronco fino e folhas delicadas em arco.",
     ecologicalImportance: ["Produz pequenos frutos que atraem pássaros.", "Muito resistente em solos urbanos."],
     curbsideNotes: ["Também chamada de Palmeira Anã.", "Possui pequenos espinhos na base das folhas."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Cuidado com os espinhos na base das folhas.", "Crescimento muito lento.", "Ideal para vasos em áreas externas."]
+    }
   },
   {
     id: "eucalipto",
@@ -274,7 +401,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de rápido crescimento com aroma característico e folhas ricas em óleos essenciais.",
     ecologicalImportance: ["Grande sequestrador de carbono.", "Utilizado em reflorestamentos industriais."],
     curbsideNotes: ["Existem mais de 700 espécies.", "Folhas são usadas em óleos medicinais."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76866,
+    lng: -38.48026,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Necessita de muito espaço para crescer.", "Prefere solos profundos.", "Suporta geadas leves."]
+    }
   },
   {
     id: "angico",
@@ -288,7 +423,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore rústica de tronco rugoso com madeira de alta densidade. Muito comum no interior brasileiro.",
     ecologicalImportance: ["Árvore pioneira muito resistente.", "Sementes são alimento para fauna silvestre."],
     curbsideNotes: ["A casca é rica em tanino.", "Usada tradicionalmente para curumearia."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Extremamente rústico e resistente.", "Ideal para recuperação de solos degradados.", "Não requer adubação frequente."]
+    }
   },
   {
     id: "palmeira-rabo-de-peixe",
@@ -299,10 +442,18 @@ export const plants: Plant[] = [
     biome: "Tropical",
     thumbnailUrl: TRANSPARENT_PIXEL,
     imageUrl: TRANSPARENT_PIXEL,
-    characteristics: "Palmeira exótica com folíolos que lembram a barbatana de um peixe. Muito imponente no paisagismo.",
+    characteristics: "Palmeira exótica with folíolos que lembram a barbatana de um peixe. Muito imponente no paisagismo.",
     ecologicalImportance: ["Atrai morcegos e pássaros frugívoros.", "Habitat para diversos animais tropicais."],
     curbsideNotes: ["Morre após uma única e longa floração (monocárpica).", "Os frutos podem causar irritação na pele se manuseados."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Os frutos podem ser irritantes ao toque.", "Forneça regas regulares durante a floração.", "Necessita de pleno sol para se desenvolver bem."]
+    }
   },
   {
     id: "cassia-chuva-de-ouro",
@@ -316,7 +467,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de médio porte que se cobre de cachos pendentes de flores amarelas muiros vistosas.",
     ecologicalImportance: ["Atrai abelhas grandes e pássaros.", "Ajuda na melhoria da estética urbana."],
     curbsideNotes: ["As flores parecem lanternas amarelas.", "É a árvore símbolo da Tailândia."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Floresce no verão com cachos amarelos.", "Prefere solos ricos e bem drenados.", "Crescimento rápido e sombra leve."]
+    }
   },
   {
     id: "espirradeira",
@@ -330,7 +489,15 @@ export const plants: Plant[] = [
     characteristics: "Arbusto de flores rosas, brancas ou vermelhas. Muito resistente à seca, porém extremamente tóxico se ingerido.",
     ecologicalImportance: ["Planta melífera.", "Atrai borboletas monarca."],
     curbsideNotes: ["Apenas para fins ornamentais, requer cuidado extremo.", "Suporta alta salinidade."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Atenção: todas as partes são tóxicas se ingeridas.", "Muito resistente à poluição urbana.", "Suporta bem o vento e a seca."]
+    }
   },
   {
     id: "ipe-amarelo",
@@ -344,7 +511,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de beleza única, símbolo da caatinga e cerrado em sua floração seca e amarela.",
     ecologicalImportance: ["Polinização ativa por abelhas silvestres.", "Dispersão das sementes pelo vento (anemocoria)."],
     curbsideNotes: ["Floresce quando está sem nenhuma folha.", "Muito usada em praças e calçadas."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Perde as folhas antes de florescer no inverno.", "Resistente a solos pobres.", "Atrai muitas abelhas polinizadoras."]
+    }
   },
   {
     id: "buganvilia",
@@ -358,7 +533,15 @@ export const plants: Plant[] = [
     characteristics: "Arbusto ou trepadeira de flores pequenas e brancas, protegidas por cores chamativas que são na verdade folhas modificadas (brácteas).",
     ecologicalImportance: ["Atrai insetos polinizadores.", "Proporciona cor intensa em áreas urbanas."],
     curbsideNotes: ["Também chamada de Primavera ou Três-Marias.", "Muito resistente ao calor intenso."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Pode ser podada como arbusto ou trepadeira.", "Cuidado com os espinhos nos galhos.", "As cores são na verdade folhas modificadas."]
+    }
   },
   {
     id: "agave",
@@ -372,7 +555,15 @@ export const plants: Plant[] = [
     characteristics: "Planta suculenta de folhas longas e pontiagudas, forma uma roseta gigante que pode chegar a metros de diâmetro.",
     ecologicalImportance: ["Habitat para insetos especialistas.", "Resistente a incêndios natual."],
     curbsideNotes: ["Floresce apenas uma vez e depois morre.", "De algumas espécies se extrai fibras."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Suporta sol intenso e falta de água.", "As bordas das folhas podem ser cortantes.", "Floresce apenas uma vez após muitos anos."]
+    }
   },
   {
     id: "palmeira-imperial",
@@ -386,7 +577,15 @@ export const plants: Plant[] = [
     characteristics: "Palmeira de troncos lisos e cilíndricos, majestosa, atingindo até 40 metros de altura.",
     ecologicalImportance: ["Importante para pássaros de grande porte.", "Símbolo de imponência no paisagismo histórico."],
     curbsideNotes: ["Introduzida no Brasil no Jardim Botânico do RJ em 1809.", "Muito usada em alamedas de entrada."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "alta",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Requer solos profundos e muita água.", "Símbolo de imponência, necessita de espaço.", "Pode atingir grandes alturas."]
+    }
   },
   {
     id: "wedelia",
@@ -400,7 +599,13 @@ export const plants: Plant[] = [
     characteristics: "Forração resistente com pequenas flores amarelas semelhantes a margaridas.",
     ecologicalImportance: ["Ajudam no controle da erosão do solo.", "Atraem pequenos polinizadores."],
     curbsideNotes: ["Cresce de forma muito agressiva.", "Suporta bem o pisoteio leve."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Excelente para forração de solos.", "Cresce rapidamente e cobre áreas vazias.", "Suporta pisoteio leve."]
+    }
   },
   {
     id: "alamanda",
@@ -414,7 +619,15 @@ export const plants: Plant[] = [
     characteristics: "Trepadeira vigorosa de flores amarelas grandes em formato de trombeta.",
     ecologicalImportance: ["Atrai diversas borboletas.", "Excelente para cobrir cercas e muros."],
     curbsideNotes: ["Possui látex tóxico se manuseado sem luvas.", "Exige pleno sol para florescer bem."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.768828,
+    lng: -38.48009,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Atenção: o látex branco é tóxico.", "Floresce intensamente sob sol pleno.", "Pode ser conduzida em cercas e muros."]
+    }
   },
   {
     id: "macaubeira",
@@ -428,7 +641,15 @@ export const plants: Plant[] = [
     characteristics: "Palmeira de tronco espinhoso com madeira e óleo de alta qualidade.",
     ecologicalImportance: ["Fruto amado por Araras e papagaios.", "Semente rica em óleo."],
     curbsideNotes: ["O coco da macaúba é comestível.", "Considerada o 'ouro do cerrado'."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Muito resistente ao calor do Cerrado.", "O tronco é munido de espinhos fortes.", "Os frutos são ricos em óleo."]
+    }
   },
   {
     id: "palmeira-havai",
@@ -442,7 +663,15 @@ export const plants: Plant[] = [
     characteristics: "Palmeira de pequeno porte com frutinhos vermelhos em cachos pendentes.",
     ecologicalImportance: ["Pequenos pássaros comem os frutos.", "Ornamental e refinado."],
     curbsideNotes: ["Também chamada de Palmeira de Natal.", "Chega a 5-8 metros no máximo."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Os frutos vermelhos são muito ornamentais.", "Ideal para pequenos jardins ou vasos.", "Mantenha o solo fértil."]
+    }
   },
   {
     id: "grama-esmeralda",
@@ -456,7 +685,15 @@ export const plants: Plant[] = [
     characteristics: "Grama de folhas estreitas e cor verde intenso, forma um tapete denso.",
     ecologicalImportance: ["Retém nutrientes no solo.", "Ideal para conter encostas contra erosão."],
     curbsideNotes: ["A mais vendida do Brasil.", "Exige pouco corte comparado a outras."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Forma um tapete denso e macio.", "Necessita de sol pleno para não 'ralar'.", "Resistente ao pisoteio frequente."]
+    }
   },
   {
     id: "grama-japonesa",
@@ -470,7 +707,15 @@ export const plants: Plant[] = [
     characteristics: "Grama de folhas finíssimas e macias, com crescimento irregular formando montinhos (bolas).",
     ecologicalImportance: ["Usa menos água e fertilizante.", "Estética de jardins zen japonês."],
     curbsideNotes: ["Também chamada de Grama Coreana.", "Muito macia ao toque (pisar descalço)."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Cresce formando montinhos naturais.", "Não requer cortes frequentes.", "Ideal para jardins de estilo japonês."]
+    }
   },
   {
     id: "flamboia",
@@ -484,7 +729,15 @@ export const plants: Plant[] = [
     characteristics: "Possui floração extraordinária em tons de vermelha e laranja intenso, com copa frondosa.",
     ecologicalImportance: ["Sombra densa.", "Polinização ativa."],
     curbsideNotes: ["Suas raízes superficiais requerem espaço.", "As flores caídas formam um tapete colorido."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76854,
+    lng: -38.47979,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["As raízes podem danificar calçadas, dê espaço.", "Floresce espetacularmente no verão.", "Perde as folhas antes da floração."]
+    }
   },
   {
     id: "chicha-do-para",
@@ -498,7 +751,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de tronco reto e copa larga, produz frutos que contêm castanhas comestíveis.",
     ecologicalImportance: ["Fonte de gordura boa para fauna local.", "Semente dispersa naturally por aves."],
     curbsideNotes: ["O tronco reto é bom para construções navais simples.", "As castanhas lembram amendoim."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76822,
+    lng: -38.48016,
+    care: {
+      water: "alta",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["Gosta de solos úmidos de beira de rio.", "As castanhas são comestíveis e nutritivas.", "Árvore de grande porte, necessita de espaço."]
+    }
   },
   {
     id: "pacavira",
@@ -509,10 +770,18 @@ export const plants: Plant[] = [
     biome: "Mata Atlântica",
     thumbnailUrl: TRANSPARENT_PIXEL,
     imageUrl: TRANSPARENT_PIXEL,
-    characteristics: "Planta herbácea com inflorescências que lembram bicos de papagaio, mantendo as cores por longo tempo.",
+    characteristics: "Planta herbácea with inflorescências que lembram bicos de papagaio, mantendo as cores por longo tempo.",
     ecologicalImportance: ["Polinização exclusiva por certos beija-flores.", "Satura as bordas das matas com cor."],
     curbsideNotes: ["Ideal para vasos e bordaduras.", "Também chamada de Heliconia-papagaio."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76786,
+    lng: -38.47991,
+    care: {
+      water: "alta",
+      sun: "meia-sombra",
+      difficulty: "iniciante",
+      tips: ["Mantenha o solo sempre úmido.", "As flores duram muito tempo se bem cuidadas.", "Ideal para bordaduras de jardins úmidos."]
+    }
   },
   {
     id: "sombreiro",
@@ -526,7 +795,15 @@ export const plants: Plant[] = [
     characteristics: "Árvore de sombra muito densa, com flores de cor lilás e roxas em formato de borboleta.",
     ecologicalImportance: ["Atrai grandes abelhas polinizadoras.", "Espécie regeneradora de solos."],
     curbsideNotes: ["A copa é tão fechada que mal passa luz.", "Crescimento rápido."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76822,
+    lng: -38.48016,
+    care: {
+      water: "moderada",
+      sun: "pleno",
+      difficulty: "iniciante",
+      tips: ["Excelente árvore para sombra densa.", "Crescimento rápido nos primeiros anos.", "Resistente a ventos fortes."]
+    }
   },
   {
     id: "pinheiro",
@@ -540,7 +817,15 @@ export const plants: Plant[] = [
     characteristics: "Possui folhas aciculares (agulhas) e sementes em cones (pinhas). Madeira leve e resinosa.",
     ecologicalImportance: ["Importante em áreas de clima frio.", "Seus cones protegem as sementes."],
     curbsideNotes: ["O pinhão é semente de outra árvore (Araucária).", "Gera acícula no solo, acidificando."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76786,
+    lng: -38.47991,
+    care: {
+      water: "baixa",
+      sun: "pleno",
+      difficulty: "intermediário",
+      tips: ["As agulhas que caem acidificam o solo.", "Não tolera solos encharcados.", "Crescimento reto e vertical."]
+    }
   },
   {
     id: "jiboia",
@@ -554,7 +839,15 @@ export const plants: Plant[] = [
     characteristics: "Planta trepadeira muito resistente, com folhas em formato de coração e variegação amarelada.",
     ecologicalImportance: ["Ajuda na purificação do ar.", "Cobertura vegetal em florestas tropicais."],
     curbsideNotes: ["Muito fácil de cuidar em ambientes internos.", "Pode tornar-se invasora em climas favoráveis."],
-    blocks: ["bloco-t"]
+    blocks: ["bloco-t"],
+    lat: -3.76786,
+    lng: -38.47991,
+    care: {
+      water: "moderada",
+      sun: "meia-sombra",
+      difficulty: "iniciante",
+      tips: ["Uma das plantas mais fáceis de cuidar.", "Pode ser cultivada na água.", "Limpe as folhas com um pano úmido para brilho."]
+    }
   }
 ];
 

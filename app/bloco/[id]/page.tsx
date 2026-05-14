@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, MapPin, Menu, Search } from "lucide-react";
+import { ChevronLeft, MapPin, Menu, Search, Leaf } from "lucide-react";
 import { getBlockById, getPlantsByBlock, TRANSPARENT_PIXEL } from "@/lib/data";
 import { useState } from "react";
 import SideMenu from "@/components/SideMenu";
@@ -147,4 +147,3 @@ export default function BlockPage() {
   );
 }
 
-import { Leaf } from "lucide-react";

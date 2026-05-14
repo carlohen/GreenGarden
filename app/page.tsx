@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-background pb-10">
       <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-      
+
       {/* Hero Section */}
       <section className="relative w-full h-80 flex flex-col justify-center items-center">
         {/* Background Image Map */}
@@ -30,7 +30,7 @@ export default function Home() {
 
         {/* Header Icons / Menu */}
         <div className="absolute top-4 right-4 z-10">
-          <Button 
+          <Button
             variant="ghost"
             size="icon"
             onClick={() => setIsMenuOpen(true)}
@@ -96,7 +96,7 @@ export default function Home() {
         <h3 className="font-heading text-brand text-2xl tracking-wide mb-4 uppercase">
           O que é o Green Garden?
         </h3>
-        
+
         <div className="text-sm text-foreground/80 leading-relaxed font-sans space-y-4">
           <p>
             <strong>Green Garden</strong> é um projeto dedicado à valorização e{' '}
@@ -111,12 +111,12 @@ export default function Home() {
             incluindo nome científico, origem, características e importância ecológica. Com o
             uso de <strong>QR Codes</strong> instalados próximos às plantas, estudantes, professores e visitantes
             podem acessar rapidamente o conteúdo digital e <strong>aprofundar seu conhecimento
-            de forma prática e acessível</strong>.
+              de forma prática e acessível</strong>.
           </p>
 
           <p>
             Mais do que um catálogo, o projeto promove <strong>educação ambiental, incentivo à
-            preservação e conscientização sobre biodiversidade</strong>, fortalecendo a
+              preservação e conscientização sobre biodiversidade</strong>, fortalecendo a
             responsabilidade socioambiental da universidade e transformando o campus em um
             verdadeiro laboratório vivo a céu aberto.
           </p>

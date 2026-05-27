@@ -31,8 +31,11 @@ import {
   createPlant, 
   updatePlant, 
   deletePlant, 
-  uploadPlantImage, 
-  PlantaResponseDTO 
+  uploadPlantImage,
+  isLocalApiMode,
+  persistPlantsCache,
+  loadPlantsCache,
+  PlantaResponseDTO,
 } from "@/lib/plants";
 import SideMenu from "@/components/SideMenu";
 import Image from "next/image";
@@ -89,15 +92,25 @@ export default function AdminPlantasPage() {
   // Busca as plantas da API
   const fetchPlantsData = async () => {
     setApiLoading(true);
+    const auth = getAuth();
+    const cached = loadPlantsCache();
+
+    if (isLocalApiMode(auth.token)) {
+      setPlants(cached ?? []);
+      setApiLoading(false);
+      return;
+    }
+
     try {
       const data = await getPlants();
-      setPlants(data);
+      setPlants(data.length > 0 ? data : (cached ?? []));
+      if (data.length > 0) {
+        persistPlantsCache(data);
+      }
     } catch (err: any) {
       console.error("Erro ao carregar plantas da API, usando cache local se disponível:", err);
-      // Fallback local se a API estiver fora do ar
-      const cached = localStorage.getItem("greencode_managed_plants_cache");
       if (cached) {
-        setPlants(JSON.parse(cached));
+        setPlants(cached);
       }
     } finally {
       setApiLoading(false);
@@ -123,7 +136,14 @@ export default function AdminPlantasPage() {
       if (authState.token) {
         const uploadedUrl = await uploadPlantImage(file, authState.token);
         setUrlImagem(uploadedUrl);
-        showStatus("Upload de imagem concluído com sucesso!", "success");
+        if (isLocalApiMode(authState.token)) {
+          showStatus(
+            "Imagem carregada localmente (login de teste 9999). Cadastre-se na API para enviar ao servidor.",
+            "success"
+          );
+        } else {
+          showStatus("Upload de imagem concluído com sucesso!", "success");
+        }
       }
     } catch (err: any) {
       console.error(err);
@@ -182,41 +202,44 @@ export default function AdminPlantasPage() {
     };
 
     try {
-      if (authState.token) {
-        if (selectedPlant) {
-          // Edição (PUT)
-          const updated = await updatePlant(selectedPlant.id, plantPayload, authState.token);
-          showStatus(`Planta "${updated.nomeComum}" atualizada com sucesso!`, "success");
-        } else {
-          // Criação (POST)
-          const created = await createPlant(plantPayload, authState.token);
-          showStatus(`Planta "${created.nomeComum}" cadastrada com sucesso!`, "success");
-        }
+      if (!authState.token) {
+        showStatus("Faça login para salvar plantas.", "error");
+        return;
       }
-      
+
+      let savedPlant: PlantaResponseDTO;
+
+      if (selectedPlant) {
+        savedPlant = await updatePlant(selectedPlant.id, plantPayload, authState.token);
+      } else {
+        savedPlant = await createPlant(plantPayload, authState.token);
+      }
+
+      const updatedList = selectedPlant
+        ? plants.map((p) => (p.id === selectedPlant.id ? savedPlant : p))
+        : [savedPlant, ...plants];
+
+      if (isLocalApiMode(authState.token)) {
+        setPlants(updatedList);
+        persistPlantsCache(updatedList);
+        showStatus(
+          `Planta "${savedPlant.nomeComum}" salva localmente (modo desenvolvimento 9999).`,
+          "success"
+        );
+      } else {
+        showStatus(
+          selectedPlant
+            ? `Planta "${savedPlant.nomeComum}" atualizada com sucesso!`
+            : `Planta "${savedPlant.nomeComum}" cadastrada com sucesso!`,
+          "success"
+        );
+        await fetchPlantsData();
+      }
+
       setIsFormOpen(false);
-      fetchPlantsData(); // Recarrega do backend
     } catch (err: any) {
       console.error(err);
-      
-      // Fallback local se a API falhar ou estiver indisponível
-      const simulatedId = selectedPlant ? selectedPlant.id : Math.floor(Math.random() * 1000) + 100;
-      const simulatedPlant: PlantaResponseDTO = {
-        id: simulatedId,
-        ...plantPayload
-      };
-
-      let updatedList = [...plants];
-      if (selectedPlant) {
-        updatedList = plants.map((p) => p.id === selectedPlant.id ? simulatedPlant : p);
-      } else {
-        updatedList.unshift(simulatedPlant);
-      }
-      setPlants(updatedList);
-      localStorage.setItem("greencode_managed_plants_cache", JSON.stringify(updatedList));
-
-      showStatus(`Salvo localmente (Simulado). API respondeu: ${err.message || "Erro"}`, "success");
-      setIsFormOpen(false);
+      showStatus(err.message || "Erro ao salvar planta.", "error");
     } finally {
       setLoading(false);
     }
@@ -230,20 +253,26 @@ export default function AdminPlantasPage() {
 
     setLoading(true);
     try {
-      if (authState.token) {
-        await deletePlant(plant.id, authState.token);
-        showStatus(`Planta "${plant.nomeComum}" excluída com sucesso!`, "success");
+      if (!authState.token) {
+        showStatus("Faça login para excluir plantas.", "error");
+        return;
       }
-      fetchPlantsData();
+
+      await deletePlant(plant.id, authState.token);
+
+      const filtered = plants.filter((p) => p.id !== plant.id);
+
+      if (isLocalApiMode(authState.token)) {
+        setPlants(filtered);
+        persistPlantsCache(filtered);
+        showStatus(`Planta "${plant.nomeComum}" removida localmente.`, "success");
+      } else {
+        showStatus(`Planta "${plant.nomeComum}" excluída com sucesso!`, "success");
+        await fetchPlantsData();
+      }
     } catch (err: any) {
       console.error(err);
-      
-      // Fallback local
-      const filtered = plants.filter((p) => p.id !== plant.id);
-      setPlants(filtered);
-      localStorage.setItem("greencode_managed_plants_cache", JSON.stringify(filtered));
-
-      showStatus(`Removido localmente. API respondeu: ${err.message || "Erro"}`, "success");
+      showStatus(err.message || "Erro ao excluir planta.", "error");
     } finally {
       setLoading(false);
     }

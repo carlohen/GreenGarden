@@ -13,6 +13,18 @@ export interface AuthState {
 
 const API_BASE_URL = "https://greencodeapi-production.up.railway.app";
 
+/** Token fictício usado apenas no login local de desenvolvimento (9999 / admin123). */
+export const MOCK_ADMIN_TOKEN = "mocked-jwt-token-admin";
+
+export function isMockAuthToken(token: string | null | undefined): boolean {
+  return token === MOCK_ADMIN_TOKEN;
+}
+
+/** Remove aspas e espaços extras retornados pela API no corpo do token. */
+export function normalizeAuthToken(token: string): string {
+  return token.trim().replace(/^["']|["']$/g, "");
+}
+
 /**
  * Decodifica um token JWT no client-side com segurança
  */
@@ -42,7 +54,7 @@ export function decodeToken(token: string): DecodedToken | null {
 export async function loginUser(matricula: string, senha: string): Promise<string> {
   // Bypass local para usuário ADMIN de testes
   if (matricula === "9999" && senha === "admin123") {
-    return "mocked-jwt-token-admin";
+    return MOCK_ADMIN_TOKEN;
   }
 
   const response = await fetch(`${API_BASE_URL}/api/usuarios/login`, {
@@ -66,7 +78,7 @@ export async function loginUser(matricula: string, senha: string): Promise<strin
   }
 
   // A API retorna o token JWT como uma String pura no corpo da resposta
-  const token = await response.text();
+  const token = normalizeAuthToken(await response.text());
   return token;
 }
 
@@ -83,7 +95,7 @@ export function saveAuth(token: string, fallbackMatricula?: string): AuthState {
   let matricula = fallbackMatricula || "Usuário";
   let role = "ALUNO";
 
-  if (token === "mocked-jwt-token-admin") {
+  if (token === MOCK_ADMIN_TOKEN) {
     matricula = "9999";
     role = "ADMIN";
   } else {

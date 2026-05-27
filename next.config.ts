@@ -27,7 +27,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'levypreserve.org',
       },
-
+      {
+        protocol: 'https',
+        hostname: 'greencodeapi-production.up.railway.app',
+      },
     ],
   },
 };

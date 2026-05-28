@@ -71,6 +71,7 @@ export default function AdminPlantasPage() {
 
   // Feedbacks
   const [statusMessage, setStatusMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  const [importing, setImporting] = useState(false);
 
   // Validação de acesso e carregamento inicial das plantas
   useEffect(() => {
@@ -278,6 +279,55 @@ export default function AdminPlantasPage() {
     }
   };
 
+  // Importar plantas estáticas do catálogo para a API
+  const handleImportStaticPlants = async () => {
+    if (!authState.token) {
+      showStatus("Faça login para importar plantas.", "error");
+      return;
+    }
+
+    if (!confirm("Deseja importar todas as plantas estáticas do catálogo (lib/data.ts) para o banco de dados?")) {
+      return;
+    }
+
+    setImporting(true);
+    showStatus("Iniciando importação das plantas...", "success");
+
+    try {
+      const { getAllPlantsForApi } = await import("@/lib/catalog-api");
+      const staticDtos = getAllPlantsForApi(window.location.origin);
+      
+      let importedCount = 0;
+      let skippedCount = 0;
+
+      for (const dto of staticDtos) {
+        // Evita duplicar se o nome científico for igual
+        const exists = plants.some(
+          (p) => p.nomeCientifico.toLowerCase() === dto.nomeCientifico.toLowerCase()
+        );
+
+        if (exists) {
+          skippedCount++;
+          continue;
+        }
+
+        await createPlant(dto, authState.token);
+        importedCount++;
+      }
+
+      showStatus(
+        `Importação concluída! ${importedCount} novas plantas importadas, ${skippedCount} já existiam no banco.`,
+        "success"
+      );
+      await fetchPlantsData();
+    } catch (err: any) {
+      console.error(err);
+      showStatus(`Erro ao importar plantas: ${err.message || err}`, "error");
+    } finally {
+      setImporting(false);
+    }
+  };
+
   // Filtro de Busca
   const filteredPlants = plants.filter((plant) => 
     plant.nomeComum.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -476,8 +526,9 @@ export default function AdminPlantasPage() {
                           alt="Plant preview" 
                           className="object-cover w-full h-full"
                           onError={(e) => {
-                            // Fallback se a imagem der erro
-                            (e.target as HTMLImageElement).src = "https://greencodeapi-production.up.railway.app/uploads/placeholder.png";
+                            const target = e.target as HTMLImageElement;
+                            target.onerror = null;
+                            target.src = "https://images.unsplash.com/photo-1520412099521-622d23ee5b3e?w=500&auto=format&fit=crop";
                           }}
                         />
                       </div>
@@ -618,7 +669,9 @@ export default function AdminPlantasPage() {
                     alt={plant.nomeComum} 
                     className="object-cover w-full h-full transition-transform hover:scale-105"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://greencodeapi-production.up.railway.app/uploads/placeholder.png";
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src = "https://images.unsplash.com/photo-1520412099521-622d23ee5b3e?w=500&auto=format&fit=crop";
                     }}
                   />
                   <div className="absolute top-2 left-2">

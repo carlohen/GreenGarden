@@ -3,13 +3,34 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Menu } from "lucide-react";
-import { plants, TRANSPARENT_PIXEL } from "@/lib/data";
-import { useState } from "react";
+import { plants, TRANSPARENT_PIXEL, type Plant } from "@/lib/data";
+import { useState, useEffect } from "react";
 import SideMenu from "@/components/SideMenu";
 import { Button } from "@/components/ui/button";
+import { getPlants, loadPlantsCache, getMergedPlants } from "@/lib/plants";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [allPlants, setAllPlants] = useState<Plant[]>([]);
+
+  useEffect(() => {
+    async function loadDynamicPlants() {
+      const cached = loadPlantsCache();
+      if (cached && cached.length > 0) {
+        setAllPlants(getMergedPlants(cached));
+      }
+      
+      try {
+        const apiPlants = await getPlants();
+        if (apiPlants && apiPlants.length > 0) {
+          setAllPlants(getMergedPlants(apiPlants));
+        }
+      } catch (err) {
+        console.error("Erro ao buscar plantas da API:", err);
+      }
+    }
+    loadDynamicPlants();
+  }, []);
 
   return (
     <main className="flex flex-col min-h-screen bg-background pb-10">
@@ -65,7 +86,7 @@ export default function Home() {
 
       {/* Categories / Quick Links */}
       <section className="mt-12 px-6 flex justify-between gap-4 overflow-x-auto pb-4 scrollbar-hide">
-        {plants.map((plant) => (
+        {allPlants.map((plant) => (
           <Link
             href={`/planta/${plant.id}`}
             key={plant.id}

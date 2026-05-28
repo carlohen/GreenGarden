@@ -1,4 +1,5 @@
 import { isMockAuthToken } from "@/lib/auth";
+import { plants as staticPlants, type Plant } from "@/lib/data";
 
 const API_BASE_URL = "https://greencodeapi-production.up.railway.app";
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
@@ -73,6 +74,68 @@ function createLocalPlant(plantData: PlantaRequestDTO, id?: number): PlantaRespo
     ...plantData,
     tempoMedioLeituraMinutos: 0,
   };
+}
+
+export function mapDtoToPlant(dto: PlantaResponseDTO): Plant {
+  let water: "baixa" | "moderada" | "alta" = "moderada";
+  let sun: "pleno" | "meia-sombra" | "sombra" = "pleno";
+  let difficulty: "iniciante" | "intermediário" | "avançado" = "iniciante";
+  
+  const cuidadosLower = (dto.cuidados || "").toLowerCase();
+  
+  if (cuidadosLower.includes("baixa") || cuidadosLower.includes("pouca") || cuidadosLower.includes("seco")) {
+    water = "baixa";
+  } else if (cuidadosLower.includes("alta") || cuidadosLower.includes("muita") || cuidadosLower.includes("diária")) {
+    water = "alta";
+  }
+  
+  if (cuidadosLower.includes("meia-sombra") || cuidadosLower.includes("meia sombra")) {
+    sun = "meia-sombra";
+  } else if (cuidadosLower.includes("sombra")) {
+    sun = "sombra";
+  }
+  
+  if (cuidadosLower.includes("intermediário") || cuidadosLower.includes("médio") || cuidadosLower.includes("media")) {
+    difficulty = "intermediário";
+  } else if (cuidadosLower.includes("avançado") || cuidadosLower.includes("difícil")) {
+    difficulty = "avançado";
+  }
+
+  const tips = dto.cuidados ? [dto.cuidados] : ["Mantenha sob observação periódica e cuidados recomendados."];
+
+  return {
+    id: String(dto.id),
+    name: dto.nomeComum,
+    scientificName: dto.nomeCientifico,
+    family: "Flora Local",
+    origin: "Nativo/Cultivado",
+    biome: "Campus UNIFOR",
+    thumbnailUrl: dto.urlImagem || "https://greencodeapi-production.up.railway.app/uploads/placeholder.png",
+    imageUrl: dto.urlImagem || "https://greencodeapi-production.up.railway.app/uploads/placeholder.png",
+    characteristics: dto.caracteristicas || "Sem descrição disponível no momento.",
+    ecologicalImportance: ["Importante para o equilíbrio ecológico e biodiversidade do campus."],
+    curbsideNotes: ["Espécie catalogada e monitorada digitalmente."],
+    blocks: ["bloco-t"],
+    lat: dto.latitude,
+    lng: dto.longitude,
+    care: {
+      water,
+      sun,
+      difficulty,
+      tips
+    }
+  };
+}
+
+export function getMergedPlants(apiPlants: PlantaResponseDTO[]): Plant[] {
+  const merged: Plant[] = [];
+  apiPlants.forEach(dto => {
+    const mapped = mapDtoToPlant(dto);
+    if (!merged.some(p => p.id === mapped.id)) {
+      merged.push(mapped);
+    }
+  });
+  return merged;
 }
 
 /** Modo desenvolvimento: login 9999 / admin123 (sem chamadas à API). */

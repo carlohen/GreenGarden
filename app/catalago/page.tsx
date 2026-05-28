@@ -1,19 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, Menu, ChevronLeft } from "lucide-react";
-import { searchPlants, plants } from "@/lib/data";
+import { plants, type Plant } from "@/lib/data";
 import SideMenu from "@/components/SideMenu";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { getPlants, loadPlantsCache, getMergedPlants } from "@/lib/plants";
 
 export default function CatalogSearch() {
   const [query, setQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const results = query ? searchPlants(query) : plants;
+  const [allPlants, setAllPlants] = useState<Plant[]>([]);
+
+  useEffect(() => {
+    async function loadDynamicPlants() {
+      const cached = loadPlantsCache();
+      if (cached && cached.length > 0) {
+        setAllPlants(getMergedPlants(cached));
+      }
+      
+      try {
+        const apiPlants = await getPlants();
+        if (apiPlants && apiPlants.length > 0) {
+          setAllPlants(getMergedPlants(apiPlants));
+        }
+      } catch (err) {
+        console.error("Erro ao buscar plantas da API:", err);
+      }
+    }
+    loadDynamicPlants();
+  }, []);
+
+  const results = allPlants.filter(plant => {
+    const lowerQuery = query.toLowerCase();
+    return (
+      plant.name.toLowerCase().includes(lowerQuery) ||
+      plant.scientificName.toLowerCase().includes(lowerQuery) ||
+      plant.family.toLowerCase().includes(lowerQuery) ||
+      plant.characteristics.toLowerCase().includes(lowerQuery)
+    );
+  });
 
   return (
     <main className="flex flex-col min-h-screen bg-background pb-10">

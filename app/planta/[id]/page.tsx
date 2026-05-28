@@ -4,12 +4,13 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, Info, Leaf, MapPin, Menu, Share2, Map as MapIcon, Droplets, Sun, Gauge, Sparkles } from "lucide-react";
-import { getPlantById } from "@/lib/data";
-import { useState } from "react";
+import { getPlantById, type Plant } from "@/lib/data";
+import { useState, useEffect } from "react";
 import SideMenu from "@/components/SideMenu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
+import { getPlants, loadPlantsCache, getMergedPlants } from "@/lib/plants";
 
 const Map = dynamic(() => import("@/components/Map"), {
   ssr: false,
@@ -19,9 +20,36 @@ const Map = dynamic(() => import("@/components/Map"), {
 export default function PlantPage() {
   const { id } = useParams();
   const plantId = Array.isArray(id) ? id[0] : id;
-  const plant = getPlantById(plantId || "");
+  const [plant, setPlant] = useState<Plant | undefined>(undefined);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shareFeedback, setShareFeedback] = useState(false);
+
+  useEffect(() => {
+    async function loadDynamicPlant() {
+      const cached = loadPlantsCache();
+      if (cached && cached.length > 0) {
+        const merged = getMergedPlants(cached);
+        const found = merged.find(p => p.id === plantId);
+        if (found) {
+          setPlant(found);
+        }
+      }
+      
+      try {
+        const apiPlants = await getPlants();
+        if (apiPlants && apiPlants.length > 0) {
+          const merged = getMergedPlants(apiPlants);
+          const found = merged.find(p => p.id === plantId);
+          if (found) {
+            setPlant(found);
+          }
+        }
+      } catch (err) {
+        console.error("Erro ao buscar plantas da API:", err);
+      }
+    }
+    loadDynamicPlant();
+  }, [plantId]);
 
   const handleShare = async () => {
     const shareData = {

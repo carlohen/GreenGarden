@@ -4,12 +4,13 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, MapPin, Menu, Search, Leaf } from "lucide-react";
-import { getBlockById, getPlantsByBlock, TRANSPARENT_PIXEL } from "@/lib/data";
-import { useState } from "react";
+import { getBlockById, getPlantsByBlock, TRANSPARENT_PIXEL, type Plant } from "@/lib/data";
+import { useState, useEffect } from "react";
 import SideMenu from "@/components/SideMenu";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import dynamic from "next/dynamic";
+import { getPlants, loadPlantsCache, getMergedPlants } from "@/lib/plants";
 
 const Map = dynamic(() => import("@/components/Map"), { 
   ssr: false,
@@ -20,8 +21,29 @@ export default function BlockPage() {
   const { id } = useParams();
   const blockId = Array.isArray(id) ? id[0] : id;
   const block = getBlockById(blockId || "");
-  const blockPlants = getPlantsByBlock(blockId || "");
+  const [blockPlants, setBlockPlants] = useState<Plant[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    async function loadDynamicPlants() {
+      const cached = loadPlantsCache();
+      if (cached && cached.length > 0) {
+        const merged = getMergedPlants(cached);
+        setBlockPlants(merged.filter(p => p.blocks.includes(blockId || "")));
+      }
+      
+      try {
+        const apiPlants = await getPlants();
+        if (apiPlants && apiPlants.length > 0) {
+          const merged = getMergedPlants(apiPlants);
+          setBlockPlants(merged.filter(p => p.blocks.includes(blockId || "")));
+        }
+      } catch (err) {
+        console.error("Erro ao buscar plantas da API:", err);
+      }
+    }
+    loadDynamicPlants();
+  }, [blockId]);
 
   const plantMarkers = blockPlants
     .filter(p => p.lat && p.lng)

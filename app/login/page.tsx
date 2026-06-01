@@ -49,12 +49,12 @@ export default function LoginPage() {
     try {
       // Faz a requisição de login integrada à API
       const token = await loginUser(matricula, senha);
-      
+
       // Decodifica e salva as credenciais no localStorage
       saveAuth(token, matricula);
-      
+
       setSuccess(true);
-      
+
       // Pequeno delay para efeito visual premium de sucesso antes do redirecionamento
       setTimeout(() => {
         router.push("/");
@@ -103,13 +103,12 @@ export default function LoginPage() {
           <h1 className="text-foreground font-heading text-4xl tracking-tighter leading-none">
             GREEN <span className="text-brand-light italic font-heading">Garden</span>
           </h1>
-          <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest font-sans font-medium">Universidade de Fortaleza</p>
         </div>
 
         {/* Card de Login Premium com Glassmorphism */}
         <Card className="border-border/60 bg-card/60 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden relative">
           <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-brand to-brand-light" />
-          
+
           <CardHeader className="space-y-1.5 pt-8 pb-4">
             <CardTitle className="text-2xl font-heading tracking-tight text-foreground text-center">Acessar Conta</CardTitle>
             <CardDescription className="text-center font-sans text-xs text-muted-foreground">
@@ -119,7 +118,7 @@ export default function LoginPage() {
 
           <CardContent className="space-y-4 pb-6 font-sans">
             <form onSubmit={handleSubmit} className="space-y-4">
-              
+
               {/* Alert de Sucesso */}
               {success && (
                 <div className="flex items-center gap-3 bg-brand/10 border border-brand-light/20 text-brand rounded-2xl p-3.5 text-sm animate-fade-in-up">
@@ -197,7 +196,7 @@ export default function LoginPage() {
               </Button>
             </form>
           </CardContent>
-          
+
           <CardFooter className="pt-4 pb-6 border-t border-border/40 bg-muted/20 flex flex-col items-center gap-3">
             <p className="text-xs text-muted-foreground text-center">
               Não tem uma conta?{" "}

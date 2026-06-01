@@ -56,9 +56,9 @@ export default function CadastroPage() {
     try {
       // Faz o cadastro chamando a rota POST /api/usuarios
       await registerUser(matricula, senha, role);
-      
+
       setSuccess(true);
-      
+
       // Pequeno delay para efeito visual premium de sucesso antes do redirecionamento
       setTimeout(() => {
         router.push("/login");
@@ -109,7 +109,7 @@ export default function CadastroPage() {
         {/* Card de Cadastro Premium com Glassmorphism */}
         <Card className="border-border/60 bg-card/60 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden relative">
           <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-brand to-brand-light" />
-          
+
           <CardHeader className="space-y-1 pb-3 pt-6">
             <CardTitle className="text-xl font-heading tracking-tight text-foreground text-center">Criar Nova Conta</CardTitle>
             <CardDescription className="text-center font-sans text-xs text-muted-foreground">
@@ -119,7 +119,7 @@ export default function CadastroPage() {
 
           <CardContent className="space-y-4 pb-5 font-sans">
             <form onSubmit={handleSubmit} className="space-y-3.5">
-              
+
               {/* Alert de Sucesso */}
               {success && (
                 <div className="flex items-center gap-3 bg-brand/10 border border-brand-light/20 text-brand rounded-2xl p-3 text-sm animate-fade-in-up">
@@ -238,7 +238,7 @@ export default function CadastroPage() {
               </Button>
             </form>
           </CardContent>
-          
+
           <CardFooter className="pt-3 pb-5 border-t border-border/40 bg-muted/20 flex flex-col items-center gap-2.5">
             <p className="text-xs text-muted-foreground text-center">
               Já possui uma conta?{" "}
@@ -247,7 +247,6 @@ export default function CadastroPage() {
               </Link>
             </p>
             <span className="text-[9px] text-muted-foreground text-center opacity-60">
-              Universidade de Fortaleza — Campus Ecológico
             </span>
           </CardFooter>
         </Card>

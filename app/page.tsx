@@ -44,6 +44,7 @@ export default function Home() {
             src={TRANSPARENT_PIXEL}
             alt="Campus Greenery"
             fill
+            unoptimized
             className="object-cover brightness-50"
             priority
           />
@@ -97,6 +98,7 @@ export default function Home() {
                 src={plant.thumbnailUrl}
                 alt={plant.name}
                 fill
+                unoptimized
                 className="object-cover"
               />
             </div>

@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import { getPlants, loadPlantsCache, getMergedPlants } from "@/lib/plants";
+// Importa as funções de métricas
+import { incrementViews, registerPlantReading } from "@/lib/metrics";
 
 const Map = dynamic(() => import("@/components/Map"), {
   ssr: false,
@@ -24,6 +26,7 @@ export default function PlantPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shareFeedback, setShareFeedback] = useState(false);
 
+  // Carregamento dos dados da planta
   useEffect(() => {
     async function loadDynamicPlant() {
       const cached = loadPlantsCache();
@@ -49,6 +52,26 @@ export default function PlantPage() {
       }
     }
     loadDynamicPlant();
+  }, [plantId]);
+
+  // Hook isolado para controle e envio das Métricas
+  useEffect(() => {
+    if (!plantId) return;
+
+    // 1. Incrementa a visualização assim que o usuário entra na tela
+    incrementViews(plantId);
+
+    // Captura o momento exato em que a leitura começou
+    const horaInicio = new Date().toISOString();
+    
+    // ID Mockado enquanto seu sistema de autenticação/sessão não está pronto
+    const mockUsuarioId = 1; 
+
+    // 2. Cleanup Function: Executa quando o componente é desmontado (usuário muda de página)
+    return () => {
+      const horaFim = new Date().toISOString();
+      registerPlantReading(plantId, mockUsuarioId, horaInicio, horaFim);
+    };
   }, [plantId]);
 
   const handleShare = async () => {
@@ -92,10 +115,10 @@ export default function PlantPage() {
           src={plant.imageUrl}
           alt={plant.name}
           fill
+          unoptimized
           className="object-cover"
           priority
         />
-        {/* Modern Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
         {/* Top Navigation */}
@@ -222,7 +245,7 @@ export default function PlantPage() {
           </section>
         )}
 
-        {/* Ecological Importance with Image Hook */}
+        {/* Ecological Importance */}
         <section className="mb-10 flex flex-col md:flex-row gap-6">
           <div className="flex-1">
             <h3 className="font-heading text-2xl text-brand tracking-tight mb-5">Por que ela é importante?</h3>

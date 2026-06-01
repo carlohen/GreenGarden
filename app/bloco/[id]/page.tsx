@@ -142,6 +142,7 @@ export default function BlockPage() {
                       src={plant.thumbnailUrl}
                       alt={plant.name}
                       fill
+                      unoptimized
                       className="object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-brand/10 group-hover:bg-transparent transition-colors" />

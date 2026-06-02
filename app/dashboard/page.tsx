@@ -8,7 +8,7 @@ import SideMenu from "@/components/SideMenu";
 
 interface PlantaMetricas {
   id: number;
-  nome: string;
+  nomeComum: string;
   totalVisualizacoes: number;
   tempoMedioLeituraMinutos: number;
 }
@@ -153,7 +153,7 @@ export default function DashboardMétricas() {
                     <tr key={planta.id} className="hover:bg-muted/30 transition-colors">
                       <td className="px-4 sm:px-6 py-4 font-mono text-[11px] text-muted-foreground">#{planta.id}</td>
                       <td className="px-4 sm:px-6 py-4 font-medium font-heading max-w-[180px] truncate">
-                        {planta.nome || "Planta Sem Nome"}
+                        {planta.nomeComum || "Planta Sem Nome"}
                       </td>
                       
                       {/* Popularidade com Mini Gráfico */}

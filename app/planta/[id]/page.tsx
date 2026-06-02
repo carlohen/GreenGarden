@@ -23,18 +23,21 @@ export default function PlantPage() {
   const { id } = useParams();
   const plantId = Array.isArray(id) ? id[0] : id;
   const [plant, setPlant] = useState<Plant | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shareFeedback, setShareFeedback] = useState(false);
 
   // Carregamento dos dados da planta
   useEffect(() => {
     async function loadDynamicPlant() {
+      setIsLoading(true);
       const cached = loadPlantsCache();
       if (cached && cached.length > 0) {
         const merged = getMergedPlants(cached);
         const found = merged.find(p => p.id === plantId);
         if (found) {
           setPlant(found);
+          setIsLoading(false);
         }
       }
       
@@ -49,6 +52,8 @@ export default function PlantPage() {
         }
       } catch (err) {
         console.error("Erro ao buscar plantas da API:", err);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadDynamicPlant();
@@ -93,6 +98,17 @@ export default function PlantPage() {
       console.error("Erro ao compartilhar:", err);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-brand/20 border-t-brand rounded-full animate-spin" />
+          <span className="text-xs text-muted-foreground tracking-widest font-heading">CARREGANDO PLANTA...</span>
+        </div>
+      </div>
+    );
+  }
 
   if (!plant) {
     return (
